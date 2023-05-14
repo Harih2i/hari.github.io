@@ -1,0 +1,203 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <center style="margin-right: 33%;"><b>Number of Jobs Per Frequency</b></center>
+    <div style="width: 40%; float:left; margin-left: 300px" id="chart"></div>
+    <div style="width: 90%; float:right; margin-top: -200px"id="legend"></div>
+
+<script>
+  function handleSidebarItemClick(id) {
+    
+    document.getElementById('scheduler_content').style='display:none';
+    document.getElementById('normalizer_content').style='display:none';
+    document.getElementById('converter_content').style='display:none';
+    document.getElementById('image_content').style='display:none';
+    document.getElementById('association_content').style='display:none';
+    document.getElementById(id).style='display:block';
+
+    document.getElementById('scheduler').classList.remove('active');
+    document.getElementById('normalizer').classList.remove('active');
+    document.getElementById('converter').classList.remove('active');
+    document.getElementById('image').classList.remove('active');
+    document.getElementById('association').classList.remove('active');
+    document.getElementById(id.replace('_content','')).classList.add('active');
+
+    document.getElementById('chart').innerHTML = '';
+    document.getElementById('legend').innerHTML = '';
+    
+    if (id=='scheduler_content'){
+        drawchart({{jobs.scheduler_frequency|safe}})
+
+    } else if(id=='normalizer_content') {
+        drawchart({{jobs.normalizer_frequency|safe}})
+
+    } else if(id=='converter_content') {
+        drawchart({{jobs.converter_frequency|safe}})
+
+    } else if(id=='image_content') {
+        drawchart({{jobs.image_frequency|safe}})
+
+    } else if(id=='association_content') {
+        drawchart({{jobs.association_frequency|safe}})
+    }
+
+  }
+ 
+</script>
+
+    <div style= "width: 100%;">
+        <section id="scheduler_content" style="display:block;">
+            <table style= "width: 80%;" id="myTable" class="ui grey table">
+                <br>
+                <thead>
+                <tr>
+                    <th>MLS Id</th>
+                    <th>Command</th>
+                </tr>
+                </thead>
+                {% for job in jobs.scheduler %}
+                    <tr>
+                        <td>
+                            <div class="ui custom button">{{job.mls_id}}</div>
+                        </td>
+                        
+                        <td>
+                            {% for command in job.commands %}
+                                <div  class="ui custom">
+                                    <pre><code style= "word-wrap: break-word;width:49% "; class="bash">{{ command }}</code></pre>
+                                </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            
+        </section>
+    
+    </div>
+
+    <div style= "width: 100%;" >
+        
+        <section id="image_content" style="display: none">
+            <table style= "width: 80%;" id= "myTable" class="ui grey table">
+                <thead>
+                <tr>
+                    <th scope="col">MLS Id</th>
+                    <th scope="col">Command</th>
+                </tr>
+                </thead>
+                {% for job in jobs.image %}
+                    <tr>
+                        <td>
+                            <div class="ui custom button">{{job.mls_id}}</div>
+                        </td>
+                        <td>
+                            {% for command in job.commands %}
+                                <div  class="ui custom">
+                                    <pre><code style= "word-wrap: break-word;width:49% "; class="bash">{{ command }}</code></pre>
+                                </div>
+                            {% endfor %}
+                        </td>
+                        
+                        
+                    </tr>
+                {% endfor %}
+            </table>
+            
+        </section>
+    </div>
+    <div style= "width: 100%;">
+        <section id="normalizer_content" style="display: none">
+            <table style= "width: 80%;" id= "myTable" class="ui grey table">
+                <thead>
+                <tr>
+                    <th scope="col">MLS Id</th>
+                    <th scope="col">Command</th>
+                </tr>
+                </thead>
+                {% for job in jobs.normalizer %}
+                    <tr>
+                        <td>
+                            <div class="ui custom button">{{job.mls_id}}</div>
+                        </td>
+                        <td>
+                            {% for command in job.commands %}
+                                <div  class="ui custom">
+                                    <pre><code style= "word-wrap: break-word;width:49% "; class="bash">{{ command }}</code></pre>
+                                </div>
+                            {% endfor %}
+                        </td>
+                        
+                        
+                    </tr>
+                {% endfor %}
+            </table>
+            
+        </section>
+    </div>
+    <div style= "width: 100%;">
+        
+        <section id="converter_content" style="display: none">
+            <table style= "width: 80%;" id= "myTable" class="ui grey table">
+                
+                <thead>
+                <tr>
+                    <th scope="col">MLS Id</th>
+                    <th scope="col">Command</th>
+                </tr>
+                </thead>
+                {% for job in jobs.converter %}
+                    <tr>
+                        <td>
+                            <div class="ui custom button">{{job.mls_id}}</div>
+                        </td>
+
+                        <td>
+                            {% for command in job.commands %}
+                                <div  class="ui custom">
+                                    <pre><code style= "word-wrap: break-word;width:49% "; class="bash">{{ command }}</code></pre>
+                                </div>
+                            {% endfor %}
+                        </td>
+                        
+                        
+                    </tr>
+                {% endfor %}
+            </table>
+            
+        </section>
+    </div>
+    <div style= "width: 100%;">
+        
+        <section id="association_content" style="display: none">
+            <table style= "width: 80%;" id= "myTable" class="ui grey table">
+                
+                <thead>
+                <tr>
+                    <th scope="col">MLS Id</th>
+                    <th scope="col">Command</th>
+                </tr>
+                </thead>
+                {% for job in jobs.association %}
+                    <tr>
+                        <td>
+                            <div class="ui custom button">{{job.mls_id}}</div>
+                        </td>
+
+                        <td>
+                            {% for command in job.commands %}
+                                <div  class="ui custom">
+                                    <pre><code style= "word-wrap: break-word;width:49% "; class="bash">{{ command }}</code></pre>
+                                </div>
+                            {% endfor %}
+                        </td>
+                        
+                        
+                    </tr>
+                {% endfor %}
+            </table>
+            
+        </section>
+    </div>
+
+{% endblock %}
